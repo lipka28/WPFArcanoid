@@ -4,65 +4,59 @@ using System.Dynamic;
 using System.Text;
 using System.Windows;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace WPFArkanoid
 {
     public class Drawer
     {
-        public static DrawingVisual dv;
+        private WriteableBitmap render;
         public Drawer(Size dravableArea) 
         {
             DrawableArea = dravableArea;
-            dv = new DrawingVisual();
+            render = BitmapFactory.New(DrawableArea.Width, DrawableArea.Height);
             Clear();
         }
 
         public void Clear() 
         {
-            using (DrawingContext dc = dv.RenderOpen()) 
-            {
-                dc.DrawRectangle(Brushes.Black, null, new Rect(0, 0, DrawableArea.Width, DrawableArea.Height));
-            }
+            render.Clear(Color.FromRgb(0, 0, 0));
         }
 
         public void Draw(IColidableObject obj) 
         {
-            using (DrawingContext dc = dv.RenderOpen())
+            switch (obj.Shape)
             {
-                switch (obj.Shape)
-                {
-                    case Shape.RECT:
-                        dc.DrawRectangle(getBrush(obj.Color), null, new Rect(obj.Position.X, obj.Position.Y, 
-                                                                             obj.Size.Width, obj.Size.Height));
-                        break;
-                    case Shape.ELLIPSE:
-                        dc.DrawEllipse(getBrush(obj.Color), null, new Point(obj.Position.X, obj.Position.Y), obj.Size.Height, obj.Size.Height);
-                        break;
-                    default:
-                        break;
-                }
+                case Shape.RECT:
+                    render.FillRectangle(obj.Position.X, obj.Position.Y, obj.Position.X + obj.Size.Width, obj.Position.Y + obj.Size.Height, Color.FromRgb(255, 255, 255));
+                    break;
+                case Shape.ELLIPSE:
+                    render.FillEllipse(obj.Position.X, obj.Position.Y, obj.Position.X + obj.Size.Width, obj.Position.Y + obj.Size.Height, Color.FromRgb(255, 255, 255));
+                    break;
+                default:
+                    break;
             }
         }
 
-        public Size DrawableArea { get; set; }
-        public DrawingVisual Drawing { get => dv; }
+        private Size DrawableArea { get; set; }
+        public WriteableBitmap Render { get => render; }
 
-        private Brush getBrush(Colors col) 
+        private Color setColor(Colors col) 
         {
             switch (col)
             {
                 case Colors.WHITE:
-                    return Brushes.SeaShell;
+                    return Color.FromRgb(236, 240, 241); //Clouds color
                 case Colors.GREEN:
-                    return Brushes.SeaGreen;
+                    return Color.FromRgb(46, 204, 113); //Emeralds color;
                 case Colors.ORANGE:
-                    return Brushes.Orange;
+                    return Color.FromRgb(241, 48, 15); //Sun flower color;
                 case Colors.RED:
-                    return Brushes.Tomato;
+                    return Color.FromRgb(231, 76, 60); //Alizarin color;
                 case Colors.BLUE:
-                    return Brushes.SteelBlue;
+                    return Color.FromRgb(52, 152, 219); //Peter River color;
                 default:
-                    return Brushes.White;
+                    return Color.FromRgb(0, 0, 0); //Errorous black;
             }
         }
     }

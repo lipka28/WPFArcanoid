@@ -21,7 +21,7 @@ namespace WPFArkanoid
                                  '1', '0', '0', '1', '1', '1', '1', '0', '0', '1',};
 
         private static DispatcherTimer timer;
-        private Drawer painter;
+        private Drawer Renderer;
 
         private List<IColidableObject> objectList;
         private Ball ball;
@@ -31,14 +31,15 @@ namespace WPFArkanoid
         public Game(Size s) 
         {
             GameArea = s;
-            painter = new Drawer(GameArea);
+            Renderer = new Drawer(GameArea);
             objectList = new List<IColidableObject>();
 
             Score = 0;
             Lives = 5;
 
-            RenderTarget = new RenderTargetBitmap((int)GameArea.Width, (int)GameArea.Height, DPI, DPI, PixelFormats.Pbgra32);
-            RenderTarget.Render(painter.Drawing);
+            RenderTarget = Renderer.Render;
+
+            //RenderTarget.WritePixels(painter.Drawing);
             ball = new Ball(new Position((int)(RenderTarget.Width / 2), (int)(RenderTarget.Height / 2)));
 
             timer = new DispatcherTimer();
@@ -47,7 +48,7 @@ namespace WPFArkanoid
             timer.Start();
 
         }
-        public RenderTargetBitmap RenderTarget { get; set; }
+        public WriteableBitmap RenderTarget { get; set; }
         public int Score { get; set; }
         public int Lives { get; set; }
         public Size GameArea { get; set; }
@@ -64,8 +65,8 @@ namespace WPFArkanoid
 
         private void processObjectList() 
         {
-            painter.Clear();
-            painter.Draw(ball);
+            Renderer.Clear();
+            Renderer.Draw(ball);
         }
 
         private void checkOutOfBounds() 
