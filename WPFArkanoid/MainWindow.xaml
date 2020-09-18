@@ -11,6 +11,6 @@
         <Label x:Name="lScore" Content="{Binding Score}" Height="50" Width="150" VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="White" FontSize="28" FontFamily="Arial Black" Margin="115,0,0,0" />
         <Label x:Name="lHPText" Height="50" Width="63" VerticalAlignment="Top" HorizontalAlignment="Left" Content="HP:" Foreground="White" FontSize="28" FontFamily="Arial Black" Margin="572,0,0,0" />
         <Label x:Name="lHP" Height="50" Width="150" VerticalAlignment="Top" HorizontalAlignment="Left" Content="{Binding Lives}" Foreground="White" FontSize="28" FontFamily="Arial Black" Margin="640,0,0,0" />
-        <Image x:Name="ImageTarget" Height="600" Width="800" VerticalAlignment="Bottom" Source="{Binding RenderTarget}"/>
+        <Image x:Name="ImageTarget" Width="800" Height="600" Source="{Binding RenderTarget}" Margin="0,54,0,0"/>
     </Grid>
 </Window>

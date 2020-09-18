@@ -28,10 +28,10 @@ namespace WPFArkanoid
             switch (obj.Shape)
             {
                 case Shape.RECT:
-                    render.FillRectangle(obj.Position.X, obj.Position.Y, obj.Position.X + obj.Size.Width, obj.Position.Y + obj.Size.Height, Color.FromRgb(255, 255, 255));
+                    render.FillRectangle(obj.Position.X, obj.Position.Y, obj.Position.X + obj.Size.Width, obj.Position.Y + obj.Size.Height, setColor(obj.Color));
                     break;
                 case Shape.ELLIPSE:
-                    render.FillEllipse(obj.Position.X, obj.Position.Y, obj.Position.X + obj.Size.Width, obj.Position.Y + obj.Size.Height, Color.FromRgb(255, 255, 255));
+                    render.FillEllipse(obj.Position.X, obj.Position.Y, obj.Position.X + obj.Size.Height, obj.Position.Y + obj.Size.Height, setColor(obj.Color));
                     break;
                 default:
                     break;
@@ -50,7 +50,7 @@ namespace WPFArkanoid
                 case Colors.GREEN:
                     return Color.FromRgb(46, 204, 113); //Emeralds color;
                 case Colors.ORANGE:
-                    return Color.FromRgb(241, 48, 15); //Sun flower color;
+                    return Color.FromRgb(241, 196, 15); //Sun flower color;
                 case Colors.RED:
                     return Color.FromRgb(231, 76, 60); //Alizarin color;
                 case Colors.BLUE:

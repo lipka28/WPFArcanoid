@@ -23,7 +23,7 @@ namespace WPFArkanoid
         private static DispatcherTimer timer;
         private Drawer Renderer;
 
-        private List<IColidableObject> objectList;
+        private IColidableObject[] objectList;
         private Ball ball;
 
         public event PropertyChangedEventHandler PropertyChanged = (sender, e) => { };
@@ -31,15 +31,14 @@ namespace WPFArkanoid
         public Game(Size s) 
         {
             GameArea = s;
+
             Renderer = new Drawer(GameArea);
-            objectList = new List<IColidableObject>();
+            objectList = LevelGenerator.GenerateLevel(LEVEL);
 
             Score = 0;
             Lives = 5;
 
             RenderTarget = Renderer.Render;
-
-            //RenderTarget.WritePixels(painter.Drawing);
             ball = new Ball(new Position((int)(RenderTarget.Width / 2), (int)(RenderTarget.Height / 2)));
 
             timer = new DispatcherTimer();
@@ -55,11 +54,9 @@ namespace WPFArkanoid
 
         private void gameLoop(object sender, EventArgs e) 
         {
-            //RenderTarget.Clear();
             ball.move();
             checkOutOfBounds();
             processObjectList();
-            //RenderTarget.Render(painter.Drawing);
             PropertyChanged(this, new PropertyChangedEventArgs("RenderTarget"));
         }
 
@@ -67,12 +64,20 @@ namespace WPFArkanoid
         {
             Renderer.Clear();
             Renderer.Draw(ball);
+            foreach (var item in objectList)
+            {
+                if (item.IsActive) 
+                {
+                    var temp = item.Color;
+                    Renderer.Draw(item); 
+                }
+            }
         }
 
         private void checkOutOfBounds() 
         {
             if (ball.Position.X <= 0) { ball.Position.X = 0; ball.bounce(BallColisionSide.LEFT); }
-            if (ball.Position.X >= GameArea.Width) { ball.Position.X = GameArea.Width; ball.bounce(BallColisionSide.RIGHT); }
+            if (ball.Position.X + ball.Size.Width*4 >= GameArea.Width) { ball.Position.X = GameArea.Width - ball.Size.Width*4; ball.bounce(BallColisionSide.RIGHT); }
             if (ball.Position.Y <= 0) { ball.Position.Y = 0; ball.bounce(BallColisionSide.TOP); }
             if (ball.Position.Y >= GameArea.Height) { ball.Position.Y = GameArea.Height; resetBallPostion(); }
         }

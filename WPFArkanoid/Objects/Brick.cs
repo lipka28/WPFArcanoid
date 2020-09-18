@@ -2,20 +2,47 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace WPFArkanoid.Objects
+namespace WPFArkanoid
 {
     class Brick : IColidableObject
     {
-        public Brick(Position pos, char type) 
+        public Brick(Position pos, Size size, char type) 
         {
             Position = pos;
-            Size = new Size(120, 45);
+            Size = size;
 
             IsColidable = true;
-            IsDestroyable = false;
+            IsDestroyable = true;
             IsActive = true;
 
-            Color = Colors.WHITE;
+            switch (type)
+            {
+                case '1':
+                    Color = Colors.WHITE;
+                    PointValue = 1;
+                    break;
+                case '2':
+                    Color = Colors.BLUE;
+                    PointValue = 2;
+                    break;
+                case '3':
+                    Color = Colors.ORANGE;
+                    PointValue = 3;
+                    break;
+                case '4':
+                    Color = Colors.GREEN;
+                    PointValue = 4;
+                    break;
+                case '5':
+                    Color = Colors.RED;
+                    PointValue = 5;
+                    break;
+                default:
+                    IsActive = false;
+                    PointValue = 0;
+                    break;
+            }
+
             Shape = Shape.RECT;
         }
 
