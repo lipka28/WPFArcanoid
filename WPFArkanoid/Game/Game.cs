@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Linq;
 using System.Text;
 using System.Timers;
 using System.Windows;
@@ -11,6 +12,13 @@ using System.Windows.Threading;
 
 namespace WPFArkanoid
 {
+    public enum KeyPressed
+    {
+        NONE,
+        LEFT,
+        RIGHT,
+        SPACE
+    }
     public class Game : INotifyPropertyChanged
     {
         private const int DPI = 96;
@@ -25,6 +33,7 @@ namespace WPFArkanoid
 
         private IColidableObject[] objectList;
         private Ball ball;
+        private PlayerPaddle player;
 
         public event PropertyChangedEventHandler PropertyChanged = (sender, e) => { };
 
@@ -40,6 +49,7 @@ namespace WPFArkanoid
 
             RenderTarget = Renderer.Render;
             ball = new Ball(new Position((int)(RenderTarget.Width / 2), (int)(RenderTarget.Height / 2)));
+            player = new PlayerPaddle();
 
             timer = new DispatcherTimer();
             timer.Tick += new EventHandler(gameLoop);
@@ -55,6 +65,7 @@ namespace WPFArkanoid
         private void gameLoop(object sender, EventArgs e) 
         {
             ball.move();
+            HandleKeyboardInput();
             checkOutOfBounds();
             processObjectList();
             PropertyChanged(this, new PropertyChangedEventArgs("RenderTarget"));
@@ -64,6 +75,7 @@ namespace WPFArkanoid
         {
             Renderer.Clear();
             Renderer.Draw(ball);
+            Renderer.Draw(player);
             foreach (var item in objectList)
             {
                 if (item.IsActive) 
@@ -90,6 +102,26 @@ namespace WPFArkanoid
             PropertyChanged(this, new PropertyChangedEventArgs("Lives"));
 
         }
+
+        private void HandleKeyboardInput() 
+        {
+            switch (KeyPressed)
+            {
+                case KeyPressed.LEFT:
+                    player.MoveLeft();
+                    break;
+                case KeyPressed.RIGHT:
+                    player.MoveRight();
+                    break;
+                case KeyPressed.SPACE:
+                    break;
+                case KeyPressed.NONE:
+                default:
+                    break;
+            }
+        }
+
+        public KeyPressed KeyPressed { get; set; }
 
     }
 }
