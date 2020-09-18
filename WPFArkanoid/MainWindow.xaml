@@ -1,0 +1,16 @@
+﻿<Window x:Class="WPFArkanoid.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WPFArkanoid"
+        mc:Ignorable="d"
+        Title="Arkanoid" Height="670" Width="800" Background="#FF151515" SizeToContent="Manual" ResizeMode="CanMinimize">
+    <Grid>
+        <Label x:Name="lScoreText" Height="50" Width="110" VerticalAlignment="Top" HorizontalAlignment="Left" Content="Score:" Foreground="White" FontSize="28" FontFamily="Arial Black" />
+        <Label x:Name="lScore" Content="{Binding Score}" Height="50" Width="150" VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="White" FontSize="28" FontFamily="Arial Black" Margin="115,0,0,0" />
+        <Label x:Name="lHPText" Height="50" Width="63" VerticalAlignment="Top" HorizontalAlignment="Left" Content="HP:" Foreground="White" FontSize="28" FontFamily="Arial Black" Margin="572,0,0,0" />
+        <Label x:Name="lHP" Height="50" Width="150" VerticalAlignment="Top" HorizontalAlignment="Left" Content="{Binding Lives}" Foreground="White" FontSize="28" FontFamily="Arial Black" Margin="640,0,0,0" />
+        <Image x:Name="ImageTarget" Height="600" Width="800" VerticalAlignment="Bottom" Source="{Binding RenderTarget}"/>
+    </Grid>
+</Window>
