@@ -84,8 +84,17 @@ namespace WPFArkanoid
             {
                 if (item.IsActive) 
                 {
-                    CheckBallColisionWith(item);
+                    bool colided = CheckBallColisionWith(item);
                     Renderer.Draw(item);
+
+                    if (colided && item.IsDestroyable) 
+                    {
+                        var brick = item as Brick;
+                        Score += brick.PointValue;
+                        brick.Break();
+
+                        PropertyChanged(this, new PropertyChangedEventArgs("Score"));
+                    }
                 }
             }
         }
@@ -105,7 +114,7 @@ namespace WPFArkanoid
             if (player.Position.Y >= GameArea.Height) { player.Position.Y = GameArea.Height; }
         }
 
-        private void CheckBallColisionWith(IColidableObject obj) 
+        private bool CheckBallColisionWith(IColidableObject obj) 
         {
             int ballBotSide = ball.Position.Y + ball.Size.Height;
             int ballTopSide = ball.Position.Y;
@@ -127,8 +136,10 @@ namespace WPFArkanoid
             {
                 var ballBounceSide = DecideColisonSide(leftSideDist, rightSideDist, topSideDist, botSideDist);
                 ball.bounce(ballBounceSide);
-
+                return true;
             }
+
+            return false;
 
         }
 

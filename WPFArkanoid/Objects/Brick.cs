@@ -46,10 +46,31 @@ namespace WPFArkanoid
             Shape = Shape.RECT;
         }
 
-        public int Break() 
+        public void Break() 
         {
-            IsActive = false;
-            return PointValue;
+            switch (PointValue)
+            {
+                case 5:
+                    PointValue = 4;
+                    Color = Colors.RED;
+                    break;
+                case 4:
+                    PointValue = 3;
+                    Color = Colors.ORANGE;
+                    break;
+                case 3:
+                    PointValue = 2;
+                    Color = Colors.GREEN;
+                    break;
+                case 2:
+                    PointValue = 1;
+                    Color = Colors.WHITE;
+                    break;
+                case 1:
+                default:
+                    IsActive = false;
+                    break;
+            }
         }
 
         public bool IsColidable { get; set; }
