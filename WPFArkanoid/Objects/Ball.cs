@@ -8,7 +8,7 @@ namespace WPFArkanoid
 {
     public class Ball : IColidableObject
     {
-        const int BALL_SIZE = 5;
+        const int BALL_SIZE = 10;
         public Ball(Position pos) 
         {
             Position = pos;
@@ -18,6 +18,7 @@ namespace WPFArkanoid
             IsColidable = true;
             IsDestroyable = false;
             IsActive = true;
+            IsBoundToPaddle = true;
 
             Color = Colors.WHITE;
             Shape = Shape.ELLIPSE;
@@ -50,8 +51,9 @@ namespace WPFArkanoid
         public bool IsColidable { get; set; }
         public bool IsDestroyable { get; set; }
         public bool IsActive { get; set; }
-        public Speed Speed { get; set; }
+        public bool IsBoundToPaddle { get; set; }
 
+        public Speed Speed { get; set; }
         public Position Position { get; set; }
         public Size Size { get; set; }
         public int PointValue { get; set; }

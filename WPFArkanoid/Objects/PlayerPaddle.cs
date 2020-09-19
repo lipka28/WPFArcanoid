@@ -47,6 +47,7 @@ namespace WPFArkanoid
         public Speed Speed { get; set; }
 
         public Position Position { get; set; }
+        public Position CenteredPostion { get; set; }
         public Size Size { get; set; }
         public int PointValue { get; set; }
 

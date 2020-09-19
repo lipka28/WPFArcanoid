@@ -21,6 +21,8 @@ namespace WPFArkanoid
     }
     public class Game : INotifyPropertyChanged
     {
+        private const int DEFAULT_SCORE = 0;
+        private const int DEFAULT_LIVES = 3;
         private const int ARENA_RIGHT_OFFSET = 16;
         private char[] LEVEL = { '5', '5', '5', '5', '1', '1', '5', '5', '5', '5',
                                  '4', '4', '4', '4', '1', '1', '4', '4', '4', '4',
@@ -44,8 +46,8 @@ namespace WPFArkanoid
             Renderer = new Drawer(GameArea);
             objectList = LevelGenerator.GenerateLevel(LEVEL);
 
-            Score = 0;
-            Lives = 5;
+            Score = DEFAULT_SCORE;
+            Lives = DEFAULT_LIVES;
 
             RenderTarget = Renderer.Render;
             ball = new Ball(new Position((int)(RenderTarget.Width / 2), (int)(RenderTarget.Height / 2)));
@@ -64,7 +66,12 @@ namespace WPFArkanoid
 
         private void gameLoop(object sender, EventArgs e) 
         {
-            ball.move();
+            if (ball.IsBoundToPaddle)
+            {
+                ball.Position.X = player.Position.X + player.Size.Width / 2 - ball.Size.Width / 2;
+                ball.Position.Y = player.Position.Y - ball.Size.Height;
+            }
+            else ball.move();
             HandleKeyboardInput();
             checkOutOfBounds();
             checkPlayerOutOfBounds();
@@ -159,8 +166,7 @@ namespace WPFArkanoid
 
         private void resetBallPostion() 
         {
-            ball.Position.X = (int)(RenderTarget.Width / 2);
-            ball.Position.Y = (int)(RenderTarget.Height / 2);
+            ball.IsBoundToPaddle = true;
             Lives -= 1;
             PropertyChanged(this, new PropertyChangedEventArgs("Lives"));
 
@@ -177,6 +183,7 @@ namespace WPFArkanoid
                     player.MoveRight();
                     break;
                 case KeyPressed.SPACE:
+                    ball.IsBoundToPaddle = false;
                     break;
                 case KeyPressed.NONE:
                 default:
