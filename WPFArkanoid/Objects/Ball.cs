@@ -29,22 +29,21 @@ namespace WPFArkanoid
             Position.Y += Speed.YSpeed;
         }
 
-        public void bounce(BallColisionSide col) 
+        public bool bounce(BallColisionSide col) 
         {
             switch (col)
-            {
-                case BallColisionSide.NONE:
-                    break;
+            {  
                 case BallColisionSide.TOP:
                 case BallColisionSide.BOTTOM:
                     Speed.YSpeed *= -1;
-                    break;
+                    return true;
                 case BallColisionSide.LEFT:
                 case BallColisionSide.RIGHT:
                     Speed.XSpeed *= -1;
-                    break;
+                    return true;
+                case BallColisionSide.NONE:
                 default:
-                    break;
+                    return false;
             }
         }
 

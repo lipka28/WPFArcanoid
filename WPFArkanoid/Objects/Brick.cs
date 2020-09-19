@@ -22,7 +22,7 @@ namespace WPFArkanoid
                     PointValue = 1;
                     break;
                 case '2':
-                    Color = Colors.BLUE;
+                    Color = Colors.GREEN;
                     PointValue = 2;
                     break;
                 case '3':
@@ -30,11 +30,11 @@ namespace WPFArkanoid
                     PointValue = 3;
                     break;
                 case '4':
-                    Color = Colors.GREEN;
+                    Color = Colors.RED;
                     PointValue = 4;
                     break;
                 case '5':
-                    Color = Colors.RED;
+                    Color = Colors.BLUE;
                     PointValue = 5;
                     break;
                 default:
@@ -44,6 +44,12 @@ namespace WPFArkanoid
             }
 
             Shape = Shape.RECT;
+        }
+
+        public int Break() 
+        {
+            IsActive = false;
+            return PointValue;
         }
 
         public bool IsColidable { get; set; }
