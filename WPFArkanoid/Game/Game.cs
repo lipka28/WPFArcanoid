@@ -117,8 +117,9 @@ namespace WPFArkanoid
                     {
                         var brick = item as Brick;
                         Score += brick.PointValue;
-                        NumberOfActiveBricks -= 1;
                         brick.Break();
+
+                        if (!brick.IsActive) NumberOfActiveBricks -= 1;
 
                         PropertyChanged(this, new PropertyChangedEventArgs("Score"));
                     }
