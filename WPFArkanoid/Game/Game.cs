@@ -39,6 +39,10 @@ namespace WPFArkanoid
         private PlayerPaddle player;
 
         public event PropertyChangedEventHandler PropertyChanged = (sender, e) => { };
+        public event EventHandler GameOverReached;
+        public event EventHandler VictoryReached;
+
+        private int NumberOfActiveBricks { get; set; }
 
         public Game(Size s) 
         {
@@ -46,6 +50,7 @@ namespace WPFArkanoid
 
             Renderer = new Drawer(GameArea);
             objectList = LevelGenerator.GenerateLevel(LEVEL);
+            NumberOfActiveBricks = objectList.Length;
 
             Score = DEFAULT_SCORE;
             Lives = DEFAULT_LIVES;
@@ -78,6 +83,8 @@ namespace WPFArkanoid
             checkPlayerOutOfBounds();
             processObjectList();
             PropertyChanged(this, new PropertyChangedEventArgs("RenderTarget"));
+
+            CheckWinLoseConditions();
         }
 
         private void processObjectList() 
@@ -99,6 +106,7 @@ namespace WPFArkanoid
                     {
                         var brick = item as Brick;
                         Score += brick.PointValue;
+                        NumberOfActiveBricks -= 1;
                         brick.Break();
 
                         PropertyChanged(this, new PropertyChangedEventArgs("Score"));
@@ -183,6 +191,15 @@ namespace WPFArkanoid
             }
         }
 
+        private void ResetTheGame() 
+        {
+            objectList = LevelGenerator.GenerateLevel(LEVEL);
+            NumberOfActiveBricks = objectList.Length;
+
+            Score = DEFAULT_SCORE;
+            Lives = DEFAULT_LIVES;
+        }
+
         private int GetDistance(int x, int y) 
         {
             return (int)Math.Abs(x - y);
@@ -215,7 +232,37 @@ namespace WPFArkanoid
             }
         }
 
+        private void CheckWinLoseConditions() 
+        {
+            if (Lives == 0)
+            {
+                GameOverReached(this, null);
+                ResetTheGame();
+                PropertyChanged(this, new PropertyChangedEventArgs("Lives"));
+                PropertyChanged(this, new PropertyChangedEventArgs("Score"));
+            }
+            else if (NumberOfActiveBricks == 0) 
+            {
+                VictoryReached(this, null);
+                ResetTheGame();
+                PropertyChanged(this, new PropertyChangedEventArgs("Lives"));
+                PropertyChanged(this, new PropertyChangedEventArgs("Score"));
+            }
+        }
+
         public KeyPressed KeyPressed { get; set; }
+
+        protected virtual void OnGameOverReached(EventArgs e) 
+        {
+            EventHandler handler = GameOverReached;
+            handler?.Invoke(this, e);
+        }
+
+        protected virtual void OnVictoryReached(EventArgs e)
+        {
+            EventHandler handler = VictoryReached;
+            handler?.Invoke(this, e);
+        }
 
     }
 }

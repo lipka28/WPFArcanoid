@@ -48,6 +48,25 @@ namespace WPFArkanoid
             {
                 game.KeyPressed = KeyPressed.NONE;
             };
+
+            game.VictoryReached += VictoryReached;
+            game.GameOverReached += GameOverReached;
+        }
+
+        private void VictoryReached(object sender, EventArgs e) 
+        {
+            MessageBox.Show("Congratulations, You won!",
+                            "Victory",
+                            MessageBoxButton.OK,
+                            MessageBoxImage.Information);
+        }
+
+        private void GameOverReached(object sender, EventArgs e) 
+        {
+            MessageBox.Show("You lost. Maybe try again?",
+                            "Defeat",
+                            MessageBoxButton.OK,
+                            MessageBoxImage.Information);
         }
     }
 }
