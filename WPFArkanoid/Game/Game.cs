@@ -24,6 +24,7 @@ namespace WPFArkanoid
         private const int DEFAULT_SCORE = 0;
         private const int DEFAULT_LIVES = 3;
         private const int ARENA_RIGHT_OFFSET = 16;
+        private const int COLISION_PADDING = 5;
         private char[] LEVEL = { '5', '5', '5', '5', '1', '1', '5', '5', '5', '5',
                                  '4', '4', '4', '4', '1', '1', '4', '4', '4', '4',
                                  '3', '3', '3', '3', '1', '1', '3', '3', '3', '3',
@@ -69,7 +70,7 @@ namespace WPFArkanoid
             if (ball.IsBoundToPaddle)
             {
                 ball.Position.X = player.Position.X + player.Size.Width / 2 - ball.Size.Width / 2;
-                ball.Position.Y = player.Position.Y - ball.Size.Height;
+                ball.Position.Y = player.Position.Y - (ball.Size.Height + COLISION_PADDING);
             }
             else ball.move();
             HandleKeyboardInput();
@@ -143,6 +144,7 @@ namespace WPFArkanoid
             {
                 var ballBounceSide = DecideColisonSide(leftSideDist, rightSideDist, topSideDist, botSideDist);
                 ball.bounce(ballBounceSide);
+                BallColisionCorrection(ballBounceSide);
                 return true;
             }
 
@@ -157,6 +159,28 @@ namespace WPFArkanoid
             else if (nums.Min() == rightDist) return BallColisionSide.LEFT;
             else if (nums.Min() == leftDist) return BallColisionSide.RIGHT;
             return BallColisionSide.BOTTOM;
+        }
+
+        private void BallColisionCorrection(BallColisionSide col) 
+        {
+            switch (col)
+            {
+                case BallColisionSide.TOP:
+                    ball.Position.Y += COLISION_PADDING;
+                    break;
+                case BallColisionSide.BOTTOM:
+                    ball.Position.Y -= COLISION_PADDING;
+                    break;
+                case BallColisionSide.LEFT:
+                    ball.Position.X += COLISION_PADDING;
+                    break;
+                case BallColisionSide.RIGHT:
+                    ball.Position.X -= COLISION_PADDING;
+                    break;
+                case BallColisionSide.NONE:
+                default:
+                    break;
+            }
         }
 
         private int GetDistance(int x, int y) 
