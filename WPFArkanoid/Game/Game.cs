@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Timers;
-using System.Windows;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 
@@ -35,8 +29,8 @@ namespace WPFArkanoid
         private Drawer Renderer;
 
         private IColidableObject[] objectList;
-        private Ball ball;
-        private PlayerPaddle player;
+        private readonly Ball ball;
+        private readonly PlayerPaddle player;
 
         public event PropertyChangedEventHandler PropertyChanged = (sender, e) => { };
         public event EventHandler GameOverReached;
@@ -60,7 +54,7 @@ namespace WPFArkanoid
             player = new PlayerPaddle();
 
             timer = new DispatcherTimer();
-            timer.Tick += new EventHandler(gameLoop);
+            timer.Tick += new EventHandler(GameLoop);
             timer.Interval = new TimeSpan(0, 0, 0, 0, 16);
             timer.Start();
 
@@ -70,24 +64,24 @@ namespace WPFArkanoid
         public int Lives { get; set; }
         public Size GameArea { get; set; }
 
-        private void gameLoop(object sender, EventArgs e) 
+        private void GameLoop(object sender, EventArgs e) 
         {
             if (ball.IsBoundToPaddle)
             {
                 ball.Position.X = player.Position.X + player.Size.Width / 2 - ball.Size.Width / 2;
                 ball.Position.Y = player.Position.Y - (ball.Size.Height + COLISION_PADDING);
             }
-            else ball.move();
+            else ball.Move();
             HandleKeyboardInput();
-            checkOutOfBounds();
-            checkPlayerOutOfBounds();
-            processObjectList();
+            CheckOutOfBounds();
+            CheckPlayerOutOfBounds();
+            ProcessObjectList();
             PropertyChanged(this, new PropertyChangedEventArgs("RenderTarget"));
 
             CheckWinLoseConditions();
         }
 
-        private void processObjectList() 
+        private void ProcessObjectList() 
         {
             CheckBallColisionWith(player);
 
@@ -115,14 +109,14 @@ namespace WPFArkanoid
             }
         }
 
-        private void checkOutOfBounds() 
+        private void CheckOutOfBounds() 
         {
-            if (ball.Position.X <= 0) { ball.Position.X = 0; ball.bounce(BallColisionSide.LEFT); }
-            if (ball.Position.X + ball.Size.Width + ARENA_RIGHT_OFFSET >= GameArea.Width) { ball.Position.X = GameArea.Width - ball.Size.Width - ARENA_RIGHT_OFFSET; ball.bounce(BallColisionSide.RIGHT); }
-            if (ball.Position.Y <= 0) { ball.Position.Y = 0; ball.bounce(BallColisionSide.TOP); }
-            if (ball.Position.Y >= GameArea.Height) { ball.Position.Y = GameArea.Height; resetBallPostion(); }
+            if (ball.Position.X <= 0) { ball.Position.X = 0; ball.Bounce(BallColisionSide.LEFT); }
+            if (ball.Position.X + ball.Size.Width + ARENA_RIGHT_OFFSET >= GameArea.Width) { ball.Position.X = GameArea.Width - ball.Size.Width - ARENA_RIGHT_OFFSET; ball.Bounce(BallColisionSide.RIGHT); }
+            if (ball.Position.Y <= 0) { ball.Position.Y = 0; ball.Bounce(BallColisionSide.TOP); }
+            if (ball.Position.Y >= GameArea.Height) { ball.Position.Y = GameArea.Height; ResetBallPostion(); }
         }
-        private void checkPlayerOutOfBounds() 
+        private void CheckPlayerOutOfBounds() 
         {
             if (player.Position.X <= 0) { player.Position.X = 0; }
             if (player.Position.X + player.Size.Width + ARENA_RIGHT_OFFSET >= GameArea.Width) { player.Position.X = GameArea.Width - player.Size.Width - ARENA_RIGHT_OFFSET; }
@@ -151,7 +145,7 @@ namespace WPFArkanoid
                 ballRightSide >= objectLeftSide && ballLeftSide <= objectRightSide)
             {
                 var ballBounceSide = DecideColisonSide(leftSideDist, rightSideDist, topSideDist, botSideDist);
-                ball.bounce(ballBounceSide);
+                ball.Bounce(ballBounceSide);
                 BallColisionCorrection(ballBounceSide);
                 return true;
             }
@@ -205,7 +199,7 @@ namespace WPFArkanoid
             return (int)Math.Abs(x - y);
         }
 
-        private void resetBallPostion() 
+        private void ResetBallPostion() 
         {
             ball.IsBoundToPaddle = true;
             Lives -= 1;

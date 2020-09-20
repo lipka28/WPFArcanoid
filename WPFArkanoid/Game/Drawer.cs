@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Dynamic;
-using System.Text;
-using System.Windows;
-using System.Windows.Media;
+﻿using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace WPFArkanoid
@@ -28,10 +23,10 @@ namespace WPFArkanoid
             switch (obj.Shape)
             {
                 case Shape.RECT:
-                    render.FillRectangle(obj.Position.X, obj.Position.Y, obj.Position.X + obj.Size.Width, obj.Position.Y + obj.Size.Height, setColor(obj.Color));
+                    render.FillRectangle(obj.Position.X, obj.Position.Y, obj.Position.X + obj.Size.Width, obj.Position.Y + obj.Size.Height, SetColor(obj.Color));
                     break;
                 case Shape.ELLIPSE:
-                    render.FillEllipse(obj.Position.X, obj.Position.Y, obj.Position.X + obj.Size.Height, obj.Position.Y + obj.Size.Height, setColor(obj.Color));
+                    render.FillEllipse(obj.Position.X, obj.Position.Y, obj.Position.X + obj.Size.Height, obj.Position.Y + obj.Size.Height, SetColor(obj.Color));
                     break;
                 default:
                     break;
@@ -41,7 +36,7 @@ namespace WPFArkanoid
         private Size DrawableArea { get; set; }
         public WriteableBitmap Render { get => render; }
 
-        private Color setColor(Colors col) 
+        private Color SetColor(Colors col) 
         {
             switch (col)
             {

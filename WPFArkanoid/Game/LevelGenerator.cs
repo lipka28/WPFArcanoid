@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.Intrinsics.X86;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace WPFArkanoid
 {

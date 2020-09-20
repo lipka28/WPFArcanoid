@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.IO.Pipes;
-using System.Text;
 
 namespace WPFArkanoid
 {
@@ -14,7 +10,7 @@ namespace WPFArkanoid
         {
             Position = pos;
             Size = new Size(BALL_SIZE, BALL_SIZE);
-            Speed = getInitialBallSpeed();
+            Speed = GetInitialBallSpeed();
 
             IsColidable = true;
             IsDestroyable = false;
@@ -25,13 +21,13 @@ namespace WPFArkanoid
             Shape = Shape.ELLIPSE;
         }
 
-        public void move() 
+        public void Move() 
         {
             Position.X += Speed.XSpeed;
             Position.Y += Speed.YSpeed;
         }
 
-        public bool bounce(BallColisionSide col) 
+        public bool Bounce(BallColisionSide col) 
         {
             switch (col)
             {  
@@ -62,7 +58,7 @@ namespace WPFArkanoid
         public Colors Color { get; set; }
         public Shape Shape { get; set; }
 
-        private Speed getInitialBallSpeed() 
+        private Speed GetInitialBallSpeed() 
         {
             int speed = BALL_SPEED;
             int[] choice = { -speed, speed };

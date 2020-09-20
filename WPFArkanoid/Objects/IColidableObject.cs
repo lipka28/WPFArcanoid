@@ -1,10 +1,4 @@
-﻿using System;
-using System.CodeDom;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Security.RightsManagement;
-using System.Text;
-
+﻿
 namespace WPFArkanoid
 {
     public enum Shape

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.DirectoryServices.ActiveDirectory;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-
+﻿
 namespace WPFArkanoid
 {
     public class PlayerPaddle : IColidableObject
