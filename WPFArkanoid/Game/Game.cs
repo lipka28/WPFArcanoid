@@ -39,7 +39,7 @@ namespace WPFArkanoid
         private static DispatcherTimer timer;
 
         private IColidableObject[] brickList;
-        private readonly Drawer Renderer;
+        private readonly Drawer renderer;
         private readonly Ball ball;
         private readonly PlayerPaddle player;
 
@@ -58,15 +58,15 @@ namespace WPFArkanoid
         {
             GameArea = s;
 
-            Renderer = new Drawer(GameArea);
-            RenderTarget = Renderer.Render;
+            renderer = new Drawer(GameArea);
+            RenderTarget = renderer.Render;
 
             ball = new Ball(new Position((int)(RenderTarget.Width / 2), (int)(RenderTarget.Height / 2)));
             player = new PlayerPaddle();
 
             timer = new DispatcherTimer();
             timer.Tick += new EventHandler(GameLoop);
-            timer.Interval = new TimeSpan(0, 0, 0, 0, 16);
+            timer.Interval = new TimeSpan(0, 0, 0, 0, 16); // close to 60 fps
 
             ResetTheGame();
             timer.Start();
@@ -102,16 +102,16 @@ namespace WPFArkanoid
         {
             CheckBallColisionWith(player);
 
-            Renderer.Clear();
-            Renderer.Draw(ball);
-            Renderer.Draw(player);
+            renderer.Clear();
+            renderer.Draw(ball);
+            renderer.Draw(player);
 
             foreach (var item in brickList)
             {
                 if (item.IsActive) 
                 {
                     bool colided = CheckBallColisionWith(item);
-                    Renderer.Draw(item);
+                    renderer.Draw(item);
 
                     if (colided && item.IsDestroyable) 
                     {
@@ -119,7 +119,10 @@ namespace WPFArkanoid
                         Score += brick.PointValue;
                         brick.Break();
 
-                        if (!brick.IsActive) NumberOfActiveBricks -= 1;
+                        if (!brick.IsActive) 
+                        { 
+                            NumberOfActiveBricks -= 1; 
+                        }
 
                         PropertyChanged(this, new PropertyChangedEventArgs("Score"));
                     }
@@ -268,7 +271,7 @@ namespace WPFArkanoid
         private void ResetTheGame() 
         {
             brickList = LevelGenerator.GenerateLevel(LEVEL);
-            NumberOfActiveBricks = brickList.Length;
+            NumberOfActiveBricks = (from item in brickList where item.IsActive select item).Count();
 
             Score = DEFAULT_SCORE;
             Lives = DEFAULT_LIVES;
