@@ -1,6 +1,9 @@
 ﻿
 namespace WPFArkanoid
 {
+    /// <summary>
+    /// Brick implementation
+    /// </summary>
     class Brick : IColidableObject
     {
         public Brick(Position pos, Size size, char type) 

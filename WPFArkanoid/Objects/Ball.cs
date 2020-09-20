@@ -2,10 +2,13 @@
 
 namespace WPFArkanoid
 {
+    /// <summary>
+    /// Ball implementation
+    /// </summary>
     public class Ball : IColidableObject
     {
-        const int BALL_SIZE = 10;
-        const int BALL_SPEED = 5;
+        private const int BALL_SIZE = 10;
+        private const int BALL_SPEED = 5;
         public Ball(Position pos) 
         {
             Position = pos;

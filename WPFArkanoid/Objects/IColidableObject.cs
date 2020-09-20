@@ -56,6 +56,10 @@ namespace WPFArkanoid
         public int XSpeed { get; set; }
         public int YSpeed { get; set; }
     }
+
+    /// <summary>
+    /// Interface for implementing colidable and drawable objects.
+    /// </summary>
     public interface IColidableObject
     {
         bool IsColidable { get; set; }

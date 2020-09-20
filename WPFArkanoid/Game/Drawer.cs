@@ -3,6 +3,9 @@ using System.Windows.Media.Imaging;
 
 namespace WPFArkanoid
 {
+    /// <summary>
+    /// Rendering class
+    /// </summary>
     public class Drawer
     {
         private WriteableBitmap render;
@@ -13,11 +16,18 @@ namespace WPFArkanoid
             Clear();
         }
 
+        /// <summary>
+        /// Clear canvas with black color
+        /// </summary>
         public void Clear() 
         {
             render.Clear(Color.FromRgb(0, 0, 0));
         }
 
+        /// <summary>
+        /// Draw object into canvas.
+        /// </summary>
+        /// <param name="obj"></param>
         public void Draw(IColidableObject obj) 
         {
             switch (obj.Shape)
@@ -36,6 +46,11 @@ namespace WPFArkanoid
         private Size DrawableArea { get; set; }
         public WriteableBitmap Render { get => render; }
 
+        /// <summary>
+        /// Get predefined color
+        /// </summary>
+        /// <param name="col"></param>
+        /// <returns></returns>
         private Color SetColor(Colors col) 
         {
             switch (col)

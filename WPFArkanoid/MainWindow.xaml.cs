@@ -18,6 +18,9 @@ namespace WPFArkanoid
             this.SetupEvents();
         }
 
+        /// <summary>
+        /// Setup all required event handelrs.
+        /// </summary>
         private void SetupEvents() 
         {
             var game = DataContext as Game;

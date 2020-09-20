@@ -1,15 +1,18 @@
 ﻿
 namespace WPFArkanoid
 {
+    /// <summary>
+    /// Class implementing player controlled paddle 
+    /// </summary>
     public class PlayerPaddle : IColidableObject
     {
-        public const int PADDLE_WIDTH = 80;
-        public const int PADDLE_HEIGHT = 20;
+        private const int PADDLE_WIDTH = 80;
+        private const int PADDLE_HEIGHT = 20;
 
-        public const int INIT_X_POS = 400 - PADDLE_WIDTH / 2;
-        public const int INIT_Y_POS = 550;
+        private const int INIT_X_POS = 400 - PADDLE_WIDTH / 2;
+        private const int INIT_Y_POS = 550;
 
-        public const int START_SPEED = 10;
+        private const int START_SPEED = 10;
 
         public PlayerPaddle() 
         {

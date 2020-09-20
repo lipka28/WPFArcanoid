@@ -2,6 +2,9 @@
 
 namespace WPFArkanoid
 {
+    /// <summary>
+    /// Level Generator
+    /// </summary>
     public static class LevelGenerator
     {
         private const int START_X = 50;
