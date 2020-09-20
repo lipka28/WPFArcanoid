@@ -152,7 +152,8 @@ namespace WPFArkanoid
             if (ball.Position.Y >= GameArea.Height) 
             { 
                 ball.Position.Y = GameArea.Height; 
-                ResetBallPostion(); 
+                ResetBallPostion();
+                ReduceLives();
             }
         }
 
@@ -270,6 +271,8 @@ namespace WPFArkanoid
 
             Score = DEFAULT_SCORE;
             Lives = DEFAULT_LIVES;
+
+            ResetBallPostion();
         }
 
         /// <summary>
@@ -289,6 +292,13 @@ namespace WPFArkanoid
         private void ResetBallPostion() 
         {
             ball.IsBoundToPaddle = true;
+        }
+
+        /// <summary>
+        /// Loose live and update live counter.
+        /// </summary>
+        private void ReduceLives() 
+        {
             Lives -= 1;
             PropertyChanged(this, new PropertyChangedEventArgs("Lives"));
         }
